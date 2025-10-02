@@ -220,19 +220,15 @@ const ApiCall = ({
               </div>
             </div>
           </div>
-        ) : (
-          <span className="text-neutral-400">Search for a location</span>
-        )}
+        ) : null}
 
         {/* Weather cards */}
-        {weather && !error && (
+        {!error && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-neutral-800 rounded-xl p-4 ">
             <h3 className="text-neutral-200">Feels Like</h3>
             <p className="text-2xl  text-white mt-5">
-              {weather
-                ? `${Math.round(weather.current.apparent_temperature)}°`
-                : "-"}
+              {weather ? `${Math.round(weather.current.apparent_temperature)}°` : "-"}
             </p>
           </div>
           <div className="bg-neutral-800 rounded-xl p-4">
@@ -244,28 +240,24 @@ const ApiCall = ({
           <div className="bg-neutral-800 rounded-xl p-4">
             <h3 className="text-neutral-200">Wind</h3>
             <p className="text-2xl  text-white mt-5">
-              {weather
-                ? `${weather.current.wind_speed_10m} ${
+              {weather ? `${weather.current.wind_speed_10m} ${
                     selectedUnit === "celsius" ? "km/h" : "mph"
-                  }`
-                : "-"}
+                  }` : "-"}
             </p>
           </div>
           <div className="bg-neutral-800 rounded-xl p-4">
             <h3 className="text-neutral-200">Rain</h3>
             <p className="text-2xl  text-white mt-5">
-              {weather
-                ? `${weather.current.precipitation} ${
+              {weather ? `${weather.current.precipitation} ${
                     selectedUnit === "celsius" ? "mm" : "in"
-                  }`
-                : "-"}
+                  }` : "-"}
             </p>
           </div>
         </div>
         )}
 
         {/* Daily forecast */}
-        {weather && !error && (
+        {!error && (
         <div>
           <h2 className="text-white font-semibold mb-4">Daily forecast</h2>
           <div className="grid grid-cols-3 md:grid-cols-7 gap-4">
@@ -308,7 +300,7 @@ const ApiCall = ({
       </div>
 
       {/* Sidebar */}
-      {weather && !error && (
+      {!error && (
       <aside className="bg-neutral-800 rounded-xl p-6 lg:col-span-1">
         <div className="flex justify-between items-center text-center">
           <h2 className="text-white font-semibold mb-4">Hourly forecast</h2>
@@ -334,13 +326,12 @@ const ApiCall = ({
             .map((_: number, i: number) => {
               const currentHour: number = new Date().getHours();
               const dayOffset: number = getDayOffset(selectedDay);
-              const hourIndex: number = dayOffset * 24 + currentHour + i; // Start from
+              const hourIndex: number = dayOffset * 24 + currentHour + i;
 
               return (
                 <div
                   key={i}
-                  className="bg-neutral-700 rounded-xl       
-  h-12 flex items-center justify-between px-4"
+                  className="bg-neutral-700 rounded-xl h-12 flex items-center justify-between px-4"
                 >
                   {weather && hourIndex < weather.hourly.time.length && (
                     <>
