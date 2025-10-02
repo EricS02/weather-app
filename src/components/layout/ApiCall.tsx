@@ -50,7 +50,7 @@ const ApiCall = ({
   selectedDay,
   setSelectedDay,
   setSearch,
-}: ApiCallProps): JSX.Element | null => {
+}: ApiCallProps): React.JSX.Element | null => {
   const getWeatherIcon = (weatherCode: number): string => {
     const iconMap: Record<number, string> = {
       0: "/assets/images/icon-sunny.webp", // Clear sky
@@ -166,7 +166,7 @@ const ApiCall = ({
       }
     };
 
-    const timeout: NodeJS.Timeout = setTimeout(fetchWeather, 300);
+    const timeout: ReturnType<typeof setTimeout> = setTimeout(fetchWeather, 300);
     return (): void => clearTimeout(timeout);
   }, [search, shouldFetch, selectedUnit]);
 
