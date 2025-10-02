@@ -1,0 +1,129 @@
+ closedText={
+          <span className="flex items-center space-x-2">
+            <span className="flex items-center justify-between gap-3"><img src="assets/images/icon-units.svg"/> Units</span>
+            <img src="/assets/images/icon-dropdown.svg"
+        alt="dropdown" className="w-4 h-4" />
+          </span>
+        }
+          isOpen={isDropdownOpen}
+          onToggle={() => setIsDropdownOpen(!isDropdownOpen)}
+        >
+          <button
+            onClick={toggleUnitSystem}
+            className={`text-white font-semibold font-dm-sans text-sm block w-full text-left mt-1 py-2.5 px-4 hover:bg-neutral-700 hover:text-neutral-100 rounded-lg`}
+          >
+            {selectedUnit === "Metric"
+              ? "Switch To Imperial"
+              : "Switch To Metric"}
+          </button>
+          <p className="text-sm font-semibold text-neutral-300 text-left mt-1 mb-2 px-4 font-dm-sans">
+            Temperature
+          </p>
+          <button
+            className={`text-white font-semibold font-dm-sans text-sm  w-full text-left py-2.5 px-4 justify-between items-center flex ${
+              selectedUnit === "Metric" ? "bg-neutral-700 rounded-lg " : ""
+            }`}
+          >
+            <span>Celsius (°C)</span>
+            {selectedUnit === "Metric" ? (
+              <span className="text-white font-semibold flex items-center">
+                <img
+                  src="/assets/images/icon-checkmark.svg"
+                  alt="checkmark icon"
+                />
+              </span>
+            ) : (
+              ""
+            )}
+          </button>
+          <button
+            className={`text-white font-semibold font-dm-sans text-sm flex w-full text-left py-2.5 px-4 justify-between items-center ${
+              selectedUnit === "Imperial" ? "bg-neutral-700 rounded-lg" : ""
+            }`}
+          >
+            Farhrenheit (°F)
+            {selectedUnit === "Imperial" ? (
+              <span className="text-white font-semibold justify-between items-center">
+                <img
+                  src="/assets/images/icon-checkmark.svg"
+                  alt="checkmark icon"
+                />
+              </span>
+            ) : (
+              ""
+            )}
+          </button>
+          <p className="text-sm font-semibold text-neutral-300 text-left mt-1 mb-2 px-4 font-dm-sans">
+              Wind Speed
+          </p>
+          <button
+            className={`text-white font-semibold font-dm-sans text-sm  w-full text-left py-2.5 px-4 justify-between items-center flex ${
+              selectedUnit === "Metric" ? "bg-neutral-700 rounded-lg " : ""
+            }`}
+          >
+            <span>km/h</span>
+            {selectedUnit === "Metric" ? (
+              <span className="text-white font-semibold flex items-center">
+                <img
+                  src="/assets/images/icon-checkmark.svg"
+                  alt="checkmark icon"
+                />
+              </span>
+            ) : (
+              ""
+            )}
+          </button>
+          <button
+            className={`text-white font-semibold font-dm-sans text-sm flex w-full text-left py-2.5 px-4 justify-between items-center ${
+              selectedUnit === "Imperial" ? "bg-neutral-700 rounded-lg" : ""
+            }`}
+          >
+            mph
+            {selectedUnit === "Imperial" ? (
+              <span className="text-white font-semibold justify-between items-center">
+                <img
+                  src="/assets/images/icon-checkmark.svg"
+                  alt="checkmark icon"
+                />
+              </span>
+            ) : (
+              ""
+            )}
+          </button>
+          <p className="text-sm font-semibold text-neutral-300 text-left mt-1 mb-2 px-4 font-dm-sans">
+            Precipitation
+          </p>
+          <button
+            className={`text-white font-semibold font-dm-sans text-sm  w-full text-left py-2.5 px-4 justify-between items-center flex ${
+              selectedUnit === "Metric" ? "bg-neutral-700 rounded-lg " : ""
+            }`}
+          >
+            <span>Millimeters (mm)</span>
+            {selectedUnit === "Metric" ? (
+              <span className="text-white font-semibold flex items-center">
+                <img
+                  src="/assets/images/icon-checkmark.svg"
+                  alt="checkmark icon"
+                />
+              </span>
+            ) : (
+              ""
+            )}
+          </button>
+          <button
+            className={`text-white font-semibold font-dm-sans text-sm flex w-full text-left py-2.5 px-4 justify-between items-center ${
+              selectedUnit === "Imperial" ? "bg-neutral-700 rounded-lg" : ""
+            }`}
+          >
+             Inches (in)
+            {selectedUnit === "Imperial" ? (
+              <span className="text-white font-semibold justify-between items-center">
+                <img
+                  src="/assets/images/icon-checkmark.svg"
+                  alt="checkmark icon"
+                />
+              </span>
+            ) : (
+              ""
+            )}
+          </button>
