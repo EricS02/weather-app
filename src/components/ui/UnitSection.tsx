@@ -11,7 +11,7 @@ interface UnitSectionProps {
   selectedUnit: string
 }
 
-const UnitSection = ({ title, selectedUnit, unitOptions }: UnitSectionProps): JSX.Element => {
+const UnitSection = ({ title, selectedUnit, unitOptions }: UnitSectionProps): React.JSX.Element => {
   
   return (
     <>
