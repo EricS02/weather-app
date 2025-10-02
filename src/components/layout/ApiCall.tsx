@@ -1,6 +1,45 @@
 import { useEffect, useState } from "react";
 import Day_Dropdown from "../ui/Day_Dropdown";
 
+interface WeatherData {
+  location: {
+    name: string;
+    latitude: number;
+    longitude: number;
+  };
+  current: {
+    temperature_2m: number;
+    relative_humidity_2m: number;
+    apparent_temperature: number;
+    precipitation: number;
+    wind_speed_10m: number;
+    weather_code: number;
+  };
+  hourly: {
+    time: string[];
+    temperature_2m: number[];
+    weather_code: number[];
+  };
+  daily: {
+    time: string[];
+    temperature_2m_max: number[];
+    temperature_2m_min: number[];
+    weather_code: number[];
+  };
+}
+
+interface ApiCallProps {
+  search: string;
+  shouldFetch: boolean;
+  setShouldFetch: (value: boolean) => void;
+  selectedUnit: string;
+  setIsDropdownOpen: (value: boolean) => void;
+  isDropdownOpen: boolean;
+  selectedDay: string;
+  setSelectedDay: (value: string) => void;
+  setSearch: (value: string) => void;
+}
+
 const ApiCall = ({
   search,
   shouldFetch,
@@ -11,19 +50,9 @@ const ApiCall = ({
   selectedDay,
   setSelectedDay,
   setSearch,
-}: {
-  search: string;
-  shouldFetch: boolean;
-  setShouldFetch: (value: boolean) => void;
-  selectedUnit: string;
-  setIsDropdownOpen: (value: boolean) => void;
-  isDropdownOpen: boolean;
-  selectedDay: string;
-  setSelectedDay: (value: string) => void;
-  setSearch: (value: string) => void;
-}) => {
-  const getWeatherIcon = (weatherCode) => {
-    const iconMap = {
+}: ApiCallProps): JSX.Element | null => {
+  const getWeatherIcon = (weatherCode: number): string => {
+    const iconMap: Record<number, string> = {
       0: "/assets/images/icon-sunny.webp", // Clear sky
       1: "/assets/images/icon-partly-cloudy.webp", // Mainly clear
       2: "/assets/images/icon-partly-cloudy.webp", // Partly cloudy
@@ -46,8 +75,8 @@ const ApiCall = ({
     return iconMap[weatherCode] || "";
   };
 
-  const getDayOffset = (selectedDay) => {
-    const days = [
+  const getDayOffset = (selectedDay: string): number => {
+    const days: string[] = [
       "Sunday",
       "Monday",
       "Tuesday",
@@ -56,46 +85,46 @@ const ApiCall = ({
       "Friday",
       "Saturday",
     ];
-    const today = new Date().getDay();
-    const selectedDayIndex = days.indexOf(selectedDay);
+    const today: number = new Date().getDay();
+    const selectedDayIndex: number = days.indexOf(selectedDay);
 
-    let offset = selectedDayIndex - today;
+    let offset: number = selectedDayIndex - today;
     if (offset < 0) offset += 7;
 
     return offset;
   };
 
-  const [weather, setWeather] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
-  const fetchUserCurrentLocation = async () => {
+  const fetchUserCurrentLocation = async (): Promise<void> => {
     setLoading(true);
 
     try {
       const locationResponse = await fetch(
         `https://geo.ipify.org/api/v2/country,city?apiKey=${import.meta.env.VITE_CURRENT_LOCATION_API_KEY}`
       );
-      const data = await locationResponse.json();
+      const data: { location: { city: string } } = await locationResponse.json();
 
-      const cityName = data.location.city;
+      const cityName: string = data.location.city;
       setSearch(cityName.toLowerCase());
       setShouldFetch(true);
-    } catch (error) {
+    } catch (error: unknown) {
       console.log("error: ", error);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
+  useEffect((): void => {
     fetchUserCurrentLocation();
   }, []);
 
-  useEffect(() => {
+  useEffect((): (() => void) | void => {
     if (!shouldFetch || !search) return;
 
-    const fetchWeather = async () => {
+    const fetchWeather = async (): Promise<void> => {
       setLoading(true);
       setError(false);
 
@@ -104,16 +133,16 @@ const ApiCall = ({
         const geoResponse = await fetch(
           `https://geocoding-api.open-meteo.com/v1/search?name=${search}&count=1`
         );
-        const geoData = await geoResponse.json();
-        
+        const geoData: { results?: Array<{ name: string; latitude: number; longitude: number }> } = await geoResponse.json();
+
         if (!geoData.results || geoData.results.length === 0) {
           setError(true);
           setLoading(false);
           setShouldFetch(false);
           return;
         }
-        
-        const location = geoData.results[0];
+
+        const location: { name: string; latitude: number; longitude: number } = geoData.results[0];
 
         // Get weather
         const weatherResponse = await fetch(
@@ -125,10 +154,10 @@ const ApiCall = ({
             selectedUnit === "celsius" ? "mm" : "inch"
           }&wind_speed_unit=${selectedUnit === "celsius" ? "kmh" : "mph"}`
         );
-        const weatherData = await weatherResponse.json();
+        const weatherData: Omit<WeatherData, 'location'> = await weatherResponse.json();
 
         setWeather({ location, ...weatherData });
-      } catch (error) {
+      } catch (error: unknown) {
         console.log("Error:", error);
         setError(true);
       } finally {
@@ -137,8 +166,8 @@ const ApiCall = ({
       }
     };
 
-    const timeout = setTimeout(fetchWeather, 300);
-    return () => clearTimeout(timeout);
+    const timeout: NodeJS.Timeout = setTimeout(fetchWeather, 300);
+    return (): void => clearTimeout(timeout);
   }, [search, shouldFetch, selectedUnit]);
 
   if (!search && !loading) return null;
@@ -242,7 +271,7 @@ const ApiCall = ({
           <div className="grid grid-cols-3 md:grid-cols-7 gap-4">
             {Array(7)
               .fill(0)
-              .map((_, i) => {
+              .map((_: number, i: number) => {
                 return (
                   <div
                     key={i}
@@ -258,6 +287,7 @@ const ApiCall = ({
                         </p>
                         <img
                           src={getWeatherIcon(weather.daily.weather_code[i])}
+                          alt="weather condition"
                         />
                         <div className="flex justify-between  items-center">
                           <p className="text-base text-white ">
@@ -288,7 +318,7 @@ const ApiCall = ({
                 <div className="font-dm-sans font-semibold text-white">
                   {selectedDay || "-"}
                 </div>
-                <img src="/assets/images/icon-dropdown.svg" />
+                <img src="/assets/images/icon-dropdown.svg" alt="dropdown icon" />
               </div>
             }
             isOpen={isDropdownOpen}
@@ -301,10 +331,10 @@ const ApiCall = ({
         <div className="space-y-3">
           {Array(8)
             .fill(0)
-            .map((_, i) => {
-              const currentHour = new Date().getHours();
-              const dayOffset = getDayOffset(selectedDay);
-              const hourIndex = dayOffset * 24 + currentHour + i; // Start from
+            .map((_: number, i: number) => {
+              const currentHour: number = new Date().getHours();
+              const dayOffset: number = getDayOffset(selectedDay);
+              const hourIndex: number = dayOffset * 24 + currentHour + i; // Start from
 
               return (
                 <div

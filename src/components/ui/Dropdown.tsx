@@ -12,7 +12,6 @@ const Dropdown = ({
   isOpen,
   onToggle,
   closedText,
-  onClick,
 }: DropdownProps) => {
   return (
     <div className="relative">

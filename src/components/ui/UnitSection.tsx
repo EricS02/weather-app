@@ -11,14 +11,14 @@ interface UnitSectionProps {
   selectedUnit: string
 }
 
-const UnitSection = ({ title, selectedUnit, unitOptions }: UnitSectionProps) => {
+const UnitSection = ({ title, selectedUnit, unitOptions }: UnitSectionProps): JSX.Element => {
   
   return (
     <>
     <p className="text-sm font-semibold text-neutral-300 text-left mt-1 mb-2 px-4 font-dm-sans">
       {title}
     </p>
-    {unitOptions.map((option) => (
+    {unitOptions.map((option: UnitOption) => (
       <div 
       key={option.value}
       className={`text-white font-semibold font-dm-sans text-sm flex w-full

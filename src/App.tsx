@@ -4,22 +4,22 @@ import Navbar from "./components/layout/Navbar";
 import { useState } from "react";
 
 function App() {
-  const [search, setSearch] = useState("");
-  const [emptySearch, setEmptySearch] = useState(false);
-  const [shouldFetch, setShouldFetch] = useState(false);
-  const [selectedUnit, setSelectedUnit] = useState("celsius");
-  const [isNavDropdownOpen, setIsNavDropdownOpen] = useState(false);
-  const [isDayDropdownOpen, setIsDayDropdownOpen] = useState(false);
-  const [selectedDay, setSelectedDay] = useState("");
+  const [search, setSearch] = useState<string>("");
+  const [emptySearch, setEmptySearch] = useState<boolean>(false);
+  const [shouldFetch, setShouldFetch] = useState<boolean>(false);
+  const [selectedUnit, setSelectedUnit] = useState<string>("celsius");
+  const [isNavDropdownOpen, setIsNavDropdownOpen] = useState<boolean>(false);
+  const [isDayDropdownOpen, setIsDayDropdownOpen] = useState<boolean>(false);
+  const [selectedDay, setSelectedDay] = useState<string>("");
 
-  const handleSearchClick = (e) => {
+  const handleSearchClick = (e: React.FormEvent) => {
     e.preventDefault();
     if (search.trim() === "") return setEmptySearch(true);
     setEmptySearch(false);
     setShouldFetch(true);
   };
 
-  const toggleUnitSystem = () => {
+  const toggleUnitSystem = (): void => {
     setSelectedUnit(selectedUnit === "celsius" ? "fahrenheit" : "celsius");
     setShouldFetch(true);
   };
@@ -44,13 +44,13 @@ function App() {
               alt="search"
             />
             <input
-              onChange={(e) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setSearch(e.target.value.toLowerCase());
                 if (emptySearch && e.target.value.trim() !== "") {
                   setEmptySearch(false);
                 }
               }}
-              onKeyDown={(e) => e.key === "Enter" && handleSearchClick(e)}
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && handleSearchClick(e as unknown as React.FormEvent)}
               placeholder="Search for a place..."
               className=" w-full rounded-xl bg-neutral-800 border border-neutral-600 h-14 pl-12 pr-4 py-4 text-white"
             ></input>

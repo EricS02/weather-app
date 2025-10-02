@@ -1,4 +1,3 @@
-import { useState } from "react";
 
 interface Day_DropdownProps {
   onToggle: () => void;

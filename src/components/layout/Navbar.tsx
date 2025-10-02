@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Dropdown from "../ui/Dropdown";
 import UnitSection from "../ui/UnitSection";
 
@@ -9,13 +8,25 @@ interface NavBarProps {
   setIsDropdownOpen: (value: boolean) => void;
 }
 
+interface UnitOption {
+  value: string;
+  label: string;
+  system: string;
+}
+
+interface UnitOptions {
+  temperature: UnitOption[];
+  windSpeed: UnitOption[];
+  precipitation: UnitOption[];
+}
+
 const NavBar = ({selectedUnit, toggleUnitSystem, isDropdownOpen, setIsDropdownOpen}: NavBarProps) => {
 
   // const [selectedTemp, setSelectedTemp] = useState("Celcius");
   // const [selectedWind, setSelectedWind] = useState("km/h");
   // const [selectedPrecip, setSelectedPrecip] = useState("mm");
 
-  const unitOptions = {
+  const unitOptions: UnitOptions = {
     temperature: [
       { value: "Celcius", label: "Celsius (°C)", system: "celsius" },
       { value: "Farhrenheit", label: "Fahrenheit (°F)", system: "fahrenheit" },
