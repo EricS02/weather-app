@@ -55,7 +55,7 @@ Users should be able to:
 
 ### What I learned
 
-Learned how to work with and use typescript especially inline type annotation of destructure prop, practice my tailwind CSS especially when it comes to grids. Practiced implementing multiple APIS to get the correct functionality. 
+Learned how to work with and use typescript especially inline type annotation of destructured props, practice my tailwind CSS especially when it comes to grids. Practiced implementing multiple APIS to get the correct functionality. 
 
 To see how you can add code snippets, see below:
 
