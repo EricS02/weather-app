@@ -35,8 +35,7 @@ Users should be able to:
 
 ### Screenshot
 
-images/weather-app-sc.png
-
+![Weather App Screenshot](public/assets/images/weather-app-sc.png)
 
 ### Links
 
